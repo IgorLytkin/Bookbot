@@ -38,10 +38,10 @@ def _get_part_text(text: str, start: int, page_size: int):
         len_result = page_size
         while text[start+len_result-1: start+len_result] not in stop_symbols:
                 len_result -= 1
-    return text[start:len_result], len_result
+    return text[start:start+len_result], len_result
 
 # Тесты
-text = '0123456789 01234567890 123456789'
+text = '0123456789, 01234567890 123456789'
 print(*_get_part_text(text, 0, 20), sep='\n')
 
 text = 'Раз. Два. Три. Четыре. Пять. Прием!'
