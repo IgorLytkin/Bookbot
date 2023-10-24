@@ -26,16 +26,17 @@
 # Примечание 4. Обрезать невидимые символы (перенос строки, пробел и т.п.), получившиеся слева от текста, не надо.
 
 def _get_part_text(text: str, start: int, page_size: int):
-    stop_symbols: str = ',.!:;?'
+    stop_symbols: str = ',.!:;? ' # знаки препинания + пробел - терминальные символы
     len_text : int = len(text)
     if start + page_size > len_text: # Особый случай 1 - последняя страница текста, возвращаем остаток text от start до конца text
         len_result = len_text - page_size
         return text[start:len_result], len_result
-    elif text[start+page_size-1:start+page_size] not in stop_symbols:   # Проверяем последний символ страницы на принадлежность множеству стоп-символов
+    # Проверяем последний символ страницы на принадлежность множеству стоп-символов
+    elif text[start+page_size-1:start+page_size] in stop_symbols:
         return text[start:start + page_size], page_size
-    else: # Последний символ страницы - один из стоп-символов, ищем пробел влево, пропускаем обычные символы и стоп-символы
+    else: # если последний символ страницы обычный символ то идём влево до любого из стоп-символов
         len_result = page_size
-        while text[len_result] != ' ':
+        while text[len_result] in stop_symbols:
                 len_result -= 1
         return text[start:start + len_result], len_result
 
