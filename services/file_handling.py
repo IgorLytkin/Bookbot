@@ -106,5 +106,5 @@ print(*_get_part_text(text, 54, 70), sep='\n')
 
 split(text)
 # Вызов функции prepare_book для подготовки книги из текстового файла
-prepare_book(os.path.join(sys.path[0] + '\\..\\', os.path.normpath(BOOK_PATH)))
-print(book)
+prepare_book(os.path.join(sys.path[0], os.path.normpath(BOOK_PATH)))
+# print(book)
