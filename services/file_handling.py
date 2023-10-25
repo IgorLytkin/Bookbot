@@ -44,25 +44,25 @@ def prepare_book(path: str) -> None:
 # Примечание 4. Обрезать невидимые символы (перенос строки, пробел и т.п.), получившиеся слева от текста, не надо.
 
 def _get_part_text(text: str, start: int, page_size: int) -> tuple[str, int]:
-stop_symbols: str = ',.!:;?' # знаки препинания
-len_text = len(text)
-len_result = page_size # длина возвращаемой страницы
-# Особый случай 1 - последняя страница текста, возвращаем остаток text от start до конца text
-if start + page_size > len_text:
-    len_result = len_text - start # длина остатка текста от start до конца
-# Проверяем последний символ страницы на принадлежность множеству стоп-символов
-else:
-    c_end = text[start+page_size-1 : start+page_size]       # последний символ страниwы
-    c_end_1 = text[start+page_size-2 : start+page_size-1]   # предпоследний символ страниwы
-    if c_end == '.': # если последний символ точка - проверяем предпоследний
-        if c_end_1 in stop_symbols: # если предпоследний символ - знак препинания (..)
-            len_result = page_size-2 # пропускаем 2 символа
-        else: # предпоследний символ - не знак препинания
-            len_result = page_size # предпоследний символ, последний точка, возвращаем до точки включительно
-# если последний символ страницы это обычный символ, то идём влево до любого из стоп-символов
-while text[start+len_result-1: start+len_result] not in stop_symbols:
-        len_result -= 1
-return text[start:start+len_result], len_result
+    stop_symbols: str = ',.!:;?' # знаки препинания
+    len_text = len(text)
+    len_result = page_size # длина возвращаемой страницы
+    # Особый случай 1 - последняя страница текста, возвращаем остаток text от start до конца text
+    if start + page_size > len_text:
+        len_result = len_text - start # длина остатка текста от start до конца
+    # Проверяем последний символ страницы на принадлежность множеству стоп-символов
+    else:
+        c_end = text[start+page_size-1 : start+page_size]       # последний символ страниwы
+        c_end_1 = text[start+page_size-2 : start+page_size-1]   # предпоследний символ страниwы
+        if c_end == '.': # если последний символ точка - проверяем предпоследний
+            if c_end_1 in stop_symbols: # если предпоследний символ - знак препинания (..)
+                len_result = page_size-2 # пропускаем 2 символа
+            else: # предпоследний символ - не знак препинания
+                len_result = page_size # предпоследний символ, последний точка, возвращаем до точки включительно
+    # если последний символ страницы это обычный символ, то идём влево до любого из стоп-символов
+    while text[start+len_result-1: start+len_result] not in stop_symbols:
+            len_result -= 1
+    return text[start:start+len_result], len_result
 
 # Функция, возвращающая строку с текстом страницы и ее размер (автор: Михаил Крыжановский @kmsint)
 # https://github.com/kmsint/aiogram3_stepik_course/blob/master/book_bot/services/file_handling.py
