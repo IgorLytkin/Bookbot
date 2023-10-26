@@ -1,3 +1,4 @@
+import asyncio
 import logging
 
 from aiogram import Bot, Dispatcher
@@ -9,9 +10,6 @@ from config_data.config import Config, load_config
 # Вместо BOT TOKEN HERE нужно вставить токен вашего бота,
 # полученный у @BotFather
 BOT_TOKEN = 'BOT TOKEN HERE'
-
-dp = Dispatcher()
-
 
 # Этот хэндлер будет срабатывать на команду "/start"
 @dp.message(CommandStart())
@@ -188,8 +186,8 @@ async def send_echo(message: Message):
     )
 
 
+async def main():
 # Запускаем поллинг
-if __name__ == '__main__':
     # Инициализируем логгер
     logger = logging.getLogger(__name__)
     # Конфигурируем логирование
@@ -203,5 +201,16 @@ if __name__ == '__main__':
     config: Config = load_config()
 
     bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
+    dp = Dispatcher()
+
+    await bot.send_message(
+        chat_id='@LawBot_Channel_Chat',
+        text='___Пример форматированного текста_\r__',
+        parse_mode='HTML'
+    )
 
     dp.run_polling(bot)
+
+
+if __name__ == '__main__':
+    asyncio.run(main())
