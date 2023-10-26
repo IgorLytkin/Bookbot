@@ -11,6 +11,8 @@ from config_data.config import Config, load_config
 # полученный у @BotFather
 BOT_TOKEN = 'BOT TOKEN HERE'
 
+dp = Dispatcher()
+
 # Этот хэндлер будет срабатывать на команду "/start"
 @dp.message(CommandStart())
 async def process_start_command(message: Message):
@@ -200,14 +202,27 @@ async def main():
     # Загружаем конфиг в переменную config
     config: Config = load_config()
 
-    bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
-    dp = Dispatcher()
+    bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
+    # bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
 
-    await bot.send_message(
-        chat_id='@LawBot_Channel_Chat',
-        text='___Пример форматированного текста_\r__',
-        parse_mode='HTML'
-    )
+
+    await bot.send_message(chat_id=-1002114214364,text='___Пример 1 форматированного текста в канал_\r__', parse_mode='HTML')
+    await bot.send_message(chat_id=-1002034478339,text='___Пример 1 форматированного текста в группу_\r__', parse_mode='MarkdownV2')
+
+    await bot.send_message(chat_id=-1002114214364,text='___Пример 2 форматированного текста в канал_\r__')
+    await bot.send_message(chat_id=-1002034478339,text='___Пример 2 форматированного текста в группу_\r__')
+
+    # await bot.send_message(chat_id=-1002114214364,text='___Пример 3 форматированного текста в канал___', parse_mode='MarkdownV2')
+    # await bot.send_message(chat_id=-1002034478339,text='___Пример 3 форматированного текста в группу___', parse_mode='MarkdownV2')
+
+    # await bot.send_message(chat_id=-1002114214364,text='<i><u>Пример 4 форматированного текста в канал</i></u>',parse_mode='HTML')
+    # await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 4 форматированного текста в группу</i></u>',parse_mode='HTML')
+
+    await bot.send_message(chat_id=-1002114214364,text='<i><u>Пример 5 форматированного текста в канал</u></i>')
+    await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 5 форматированного текста в группу</u></i>')
+
+    await bot.send_message(chat_id=-1002114214364,text='<ins><i>Пример 6 форматированного текста в канал</i></ins>',parse_mode='HTML')
+    await bot.send_message(chat_id=-1002034478339,text='<ins><i>Пример форматированного текста в группу</i></ins>',parse_mode='HTML')
 
     dp.run_polling(bot)
 
