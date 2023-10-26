@@ -202,8 +202,8 @@ async def main():
     # Загружаем конфиг в переменную config
     config: Config = load_config()
 
-    bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
-    # bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
+    # bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
+    bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
 
     await bot.send_message(chat_id=-1002114214364,text='___Пример 1 форматированного текста в канал_\r__', parse_mode='HTML')
     await bot.send_message(chat_id=-1002034478339,text='___Пример 1 форматированного текста в группу_\r__', parse_mode='HTML')
@@ -211,11 +211,11 @@ async def main():
     await bot.send_message(chat_id=-1002114214364,text='___Пример 2 форматированного текста в канал_\r__')
     await bot.send_message(chat_id=-1002034478339,text='___Пример 2 форматированного текста в группу_\r__')
 
-    # await bot.send_message(chat_id=-1002114214364,text='___Пример 3 форматированного текста в канал___', parse_mode='MarkdownV2')
-    # await bot.send_message(chat_id=-1002034478339,text='___Пример 3 форматированного текста в группу___', parse_mode='MarkdownV2')
+    await bot.send_message(chat_id=-1002114214364,text='___Пример 3 форматированного текста в канал___', parse_mode='MarkdownV2')
+    await bot.send_message(chat_id=-1002034478339,text='___Пример 3 форматированного текста в группу___', parse_mode='MarkdownV2')
 
-    # await bot.send_message(chat_id=-1002114214364,text='<i><u>Пример 4 форматированного текста в канал</i></u>',parse_mode='HTML')
-    # await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 4 форматированного текста в группу</i></u>',parse_mode='HTML')
+    await bot.send_message(chat_id=-1002114214364,text='<i><u>Пример 4 форматированного текста в канал</i></u>',parse_mode='HTML')
+    await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 4 форматированного текста в группу</i></u>',parse_mode='HTML')
 
     await bot.send_message(chat_id=-1002114214364,text='<i><u>Пример 5 форматированного текста в канал</u></i>')
     await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 5 форматированного текста в группу</u></i>')
