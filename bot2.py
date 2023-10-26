@@ -205,9 +205,8 @@ async def main():
     bot = Bot(token=config.tg_bot.token, parse_mode='HTML')
     # bot = Bot(token=config.tg_bot.token, parse_mode='MarkdownV2')
 
-
     await bot.send_message(chat_id=-1002114214364,text='___Пример 1 форматированного текста в канал_\r__', parse_mode='HTML')
-    await bot.send_message(chat_id=-1002034478339,text='___Пример 1 форматированного текста в группу_\r__', parse_mode='MarkdownV2')
+    await bot.send_message(chat_id=-1002034478339,text='___Пример 1 форматированного текста в группу_\r__', parse_mode='HTML')
 
     await bot.send_message(chat_id=-1002114214364,text='___Пример 2 форматированного текста в канал_\r__')
     await bot.send_message(chat_id=-1002034478339,text='___Пример 2 форматированного текста в группу_\r__')
@@ -222,10 +221,9 @@ async def main():
     await bot.send_message(chat_id=-1002034478339,text='<i><u>Пример 5 форматированного текста в группу</u></i>')
 
     await bot.send_message(chat_id=-1002114214364,text='<ins><i>Пример 6 форматированного текста в канал</i></ins>',parse_mode='HTML')
-    await bot.send_message(chat_id=-1002034478339,text='<ins><i>Пример форматированного текста в группу</i></ins>',parse_mode='HTML')
+    await bot.send_message(chat_id=-1002034478339,text='<ins><i>Пример 6 форматированного текста в группу</i></ins>',parse_mode='HTML')
 
     dp.run_polling(bot)
-
 
 if __name__ == '__main__':
     asyncio.run(main())
