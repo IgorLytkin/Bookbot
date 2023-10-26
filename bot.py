@@ -26,7 +26,7 @@ async def main():
 
     # Инициализируем бот и диспетчер
     bot = Bot(token=config.tg_bot.token,
-              parse_mode='HTML')
+              parse_mode='MarkdownV2')
     dp = Dispatcher()
 
     # Настраиваем главное меню бота

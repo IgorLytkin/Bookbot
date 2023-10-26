@@ -1,14 +1,10 @@
 import os
 import sys
-from os.path import split
 
 BOOK_PATH = 'book/book.txt'
 PAGE_SIZE = 1050
 
 book: dict[int, str] = {}
-
-# Функция, формирующая словарь книги
-
 
 # Реализуйте функцию _get_part_text(), которая принимает три аргумента в следующем порядке:
 #   text - строка с полным текстом, из которого нужно получить страницу не больше заданного размера
@@ -30,6 +26,8 @@ book: dict[int, str] = {}
 # Нельзя разорвать такую последовательность, потому что следующая страница книги тогда начнется с точки, точек или
 # других знаков препинания, что для пользователя будет смотреться, как неправильное форматирование текста.
 # Примечание 4. Обрезать невидимые символы (перенос строки, пробел и т.п.), получившиеся слева от текста, не надо.
+
+
 def _get_part_text(p_text: str, start: int, page_size: int) -> tuple[str, int]:
     stop_symbols: str = ',.!:;?'  # знаки препинания
     len_text = len(p_text)
@@ -39,8 +37,8 @@ def _get_part_text(p_text: str, start: int, page_size: int) -> tuple[str, int]:
         len_result = len_text - start  # длина остатка текста от start до конца
     # Проверяем последний символ страницы на принадлежность множеству стоп-символов
     else:
-        c_end = p_text[start + page_size - 1: start + page_size]       # последний символ страниwы
-        c_end_1 = p_text[start + page_size - 2: start + page_size - 1]   # предпоследний символ страниwы
+        c_end = p_text[start + page_size - 1: start + page_size]       # последний символ страницы
+        c_end_1 = p_text[start + page_size - 2: start + page_size - 1]   # предпоследний символ страницы
         if c_end == '.':  # если последний символ точка - проверяем предпоследний
             if c_end_1 in stop_symbols:   # если предпоследний символ - знак препинания (..)
                 len_result = page_size-2  # пропускаем 2 символа
@@ -51,16 +49,7 @@ def _get_part_text(p_text: str, start: int, page_size: int) -> tuple[str, int]:
         len_result -= 1
     return p_text[start:start + len_result], len_result
 
-
-def prepare_book(path: str) -> None:
-    with open(file=path, mode='r', encoding='utf-8') as file:
-        p_text: str = file.read()
-    start, page_number = 0, 1
-    while start < len(p_text):
-        page_text, page_size = _get_part_text(p_text, start, PAGE_SIZE)
-        start += page_size
-        book[page_number] = page_text.strip()
-        page_number += 1
+# Функция, формирующая словарь книги
 
 
 # Функция, возвращающая строку с текстом страницы и ее размер (автор: Михаил Крыжановский @kmsint)
@@ -87,24 +76,35 @@ def _get_part_text_kmsint(p_text: str, start: int, size: int) -> tuple[str, int]
 
 
 # Тесты
-text = '0123456789, 01234567890 123456789'
-print(*_get_part_text(text, 0, 20), sep='\n')
-print(*_get_part_text_kmsint(text, 0, 20), sep='\n')
+# text = '0123456789, 01234567890 123456789'
+# print(*_get_part_text(text, 0, 20), sep='\n')
+# print(*_get_part_text_kmsint(text, 0, 20), sep='\n')
 
-text = 'Раз. Два. Три. Четыре. Пять. Прием!'
-print(*_get_part_text(text, 5, 9), sep='\n')
-print(*_get_part_text_kmsint(text, 5, 9), sep='\n')
+# text = 'Раз. Два. Три. Четыре. Пять. Прием!'
+# print(*_get_part_text(text, 5, 9), sep='\n')
+# print(*_get_part_text_kmsint(text, 5, 9), sep='\n')
 
-text = ('Да? Вы точно уверены? Может быть, вам это показалось?.. Ну, хорошо, приходите завтра, тогда и посмотрим, что '
-        'можно сделать. И никаких возражений! Завтра, значит, завтра!')
-print(*_get_part_text(text, 22, 145), sep='\n')
+# text = ('Да? Вы точно уверены? Может быть, вам это показалось?.. Ну, хорошо, приходите завтра, тогда и посмотрим, что '
+#         'можно сделать. И никаких возражений! Завтра, значит, завтра!')
+# print(*_get_part_text(text, 22, 145), sep='\n')
 
-text = ('— Я всё очень тщательно проверил, — сказал компьютер, — и со всей определённостью заявляю, что это и есть '
-        'ответ. Мне кажется, если уж быть с вами абсолютно честным, то всё дело в том, что вы сами не знали, '
-        'в чём вопрос.')
-print(*_get_part_text(text, 54, 70), sep='\n')
+# text = ('— Я всё очень тщательно проверил, — сказал компьютер, — и со всей определённостью заявляю, что это и есть '
+#         'ответ. Мне кажется, если уж быть с вами абсолютно честным, то всё дело в том, что вы сами не знали, '
+#         'в чём вопрос.')
+# print(*_get_part_text(text, 54, 70), sep='\n')
 
-split(text)
+def prepare_book(path: str) -> None:
+    with open(file=path, mode='r', encoding='utf-8') as file:
+        p_text: str = file.read()
+    start, page_number = 0, 1
+    while start < len(p_text):
+        page_text, page_size = _get_part_text_kmsint(p_text, start, PAGE_SIZE)
+        start += page_size
+        book[page_number] = page_text.strip()
+        page_number += 1
+    print(book)
+
+
 # Вызов функции prepare_book для подготовки книги из текстового файла
 prepare_book(os.path.join(sys.path[0], os.path.normpath(BOOK_PATH)))
 # print(book)
