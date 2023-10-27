@@ -4,6 +4,7 @@ from aiogram import Bot, Dispatcher, F
 from aiogram.filters import Command
 from aiogram.types import (CallbackQuery, InlineKeyboardButton,
                            InlineKeyboardMarkup, Message)
+from aiogram.exceptions import TelegramBadRequest
 
 from config_data.config import Config, load_config
 # Вместо BOT TOKEN HERE нужно вставить токен вашего бота,
@@ -48,11 +49,18 @@ async def process_more_press(callback: CallbackQuery):
         [InlineKeyboardButton(text='Хочу еще!', callback_data='more')]
     ]
     markup = InlineKeyboardMarkup(inline_keyboard=keyboard)
-    # Редактируем сообщение
-    await callback.message.edit_text(
-        text=jokes[random_joke()],
-        reply_markup=markup
-    )
+    # Пытаемся отредактировать сообщение
+    try:
+        await callback.message.edit_text(
+            text=jokes[random_joke()],
+            reply_markup=markup
+        )
+    except TelegramBadRequest:
+        # В случае возникновения исключения - игнорируем его,
+        # отвечая на коллбэк пустым ответом
+        await callback.answer()
+
+
 
 # Этот хэндлер будет срабатывать на любые сообщения, кроме команд
 @dp.message()
