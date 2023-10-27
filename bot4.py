@@ -67,9 +67,21 @@ def get_markup(width: int, *args, **kwargs) -> InlineKeyboardMarkup:
 # Этот хэндлер будет срабатывать на команду "/start"
 @dp.message(CommandStart())
 async def process_start_command(message: Message):
-    markup = get_markup(2, 'text')
-    await message.answer(
-        text=LEXICON['text_1'],
+    markup = get_markup(2, 'photo')
+    await message.answer_photo(
+        photo=LEXICON['photo_id1'],
+        caption='Это фото 1',
+        reply_markup=markup
+    )
+
+
+# Этот хэндлер будет срабатывать на команду "/start"
+@dp.message(CommandStart())
+async def process_start_command(message: Message):
+    markup = get_markup(2, 'document')
+    await message.answer_document(
+        document=LEXICON['document_id1'],
+        caption='Это документ 1',
         reply_markup=markup
     )
 
@@ -78,22 +90,30 @@ async def process_start_command(message: Message):
 @dp.callback_query(F.data.in_(
     ['text', 'audio', 'video', 'document', 'photo', 'voice']
 ))
-async def process_button_press(callback: CallbackQuery):
-    markup = get_markup(2, 'text')
-    if callback.message.text == LEXICON['text_1']:
-        text = LEXICON['text_2']
-    else:
-        text = LEXICON['text_1']
-    await callback.message.edit_text(
-        text=text,
-        reply_markup=markup
-    )
+async def process_button_press(callback: CallbackQuery, bot: Bot):
+    markup = get_markup(2, 'document')
+    try:
+        await bot.edit_message_media(
+            chat_id=callback.message.chat.id,
+            message_id=callback.message.message_id,
+            media=InputMediaDocument(
+                media=LEXICON['document_id2'],
+                caption='Это документ 2'
+            ),
+            reply_markup=markup
+        )
+    except TelegramBadRequest:
+        await bot.edit_message_media(
+            chat_id=callback.message.chat.id,
+            message_id=callback.message.message_id,
+            media=InputMediaDocument(
+                media=LEXICON['document_id1'],
+                caption='Это документ 1'
+            ),
+            reply_markup=markup
+        )
 
 
-# Этот хэндлер будет срабатывать на нажатие инлайн-кнопки
-@dp.callback_query(F.data.in_(
-    ['text', 'audio', 'video', 'document', 'photo', 'voice']
-))
 async def process_button_press(callback: CallbackQuery, bot: Bot):
     pass
 
