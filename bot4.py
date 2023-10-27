@@ -67,7 +67,27 @@ def get_markup(width: int, *args, **kwargs) -> InlineKeyboardMarkup:
 # Этот хэндлер будет срабатывать на команду "/start"
 @dp.message(CommandStart())
 async def process_start_command(message: Message):
-    pass
+    markup = get_markup(2, 'text')
+    await message.answer(
+        text=LEXICON['text_1'],
+        reply_markup=markup
+    )
+
+
+# Этот хэндлер будет срабатывать на нажатие инлайн-кнопки
+@dp.callback_query(F.data.in_(
+    ['text', 'audio', 'video', 'document', 'photo', 'voice']
+))
+async def process_button_press(callback: CallbackQuery):
+    markup = get_markup(2, 'text')
+    if callback.message.text == LEXICON['text_1']:
+        text = LEXICON['text_2']
+    else:
+        text = LEXICON['text_1']
+    await callback.message.edit_text(
+        text=text,
+        reply_markup=markup
+    )
 
 
 # Этот хэндлер будет срабатывать на нажатие инлайн-кнопки
